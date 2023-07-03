@@ -5,7 +5,6 @@ const bookValidator = require("../utils/bookValidator")
 
 const AddBook = async (req,res) =>{
     try {
-        const { id } = req.Book.id_book
         const dataBook = await bookValidator.validateAsync(req.body)
         const result = await Book.create(dataBook)
 
@@ -14,7 +13,7 @@ const AddBook = async (req,res) =>{
             return res.status(HttpStatus.BAD_REQUEST).json(response)
         }
 
-        const response = new Response.Success(false, "Success adding book", GetBook(id))
+        const response = new Response.Success(false, "Success adding book", result)
         return res.status(HttpStatus.OK).json(response)
     } catch (error) {
         const response = new Response.Error(true, error.message)
