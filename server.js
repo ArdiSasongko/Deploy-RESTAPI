@@ -8,8 +8,10 @@ const app = express()
 
 dotenv.config()
 require("./module/database/connect")
+
 //routes
 const Book = require("./module/routes/bookRoute")
+const Admin = require("./module/routes/adminRoute")
 
 
 app.use(cors())
@@ -24,6 +26,7 @@ app.get("/", (req,res)=>{
 
 //route
 app.use("/Book", Book)
+app.use("/Admin", Admin)
 
 app.use("*", (req,res)=>{
     res.status(404).send("Page not found")
