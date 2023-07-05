@@ -5,17 +5,17 @@ const LogAdmin = require("../utils/loginAdmin")
 const Response = require("../model/Response")
 const httpStatus = require("http-status")
 const jwt = require("jsonwebtoken")
-// const { SecretManagerServiceClient } = require("@google-cloud/secret-manager")
+const { SecretManagerServiceClient } = require("@google-cloud/secret-manager")
 
-// const Client = new SecretManagerServiceClient()
+const Client = new SecretManagerServiceClient()
 
-// const getSecretValue = async() =>{
-//     const [version] =await Client.accessSecretVersion({
-//         name: "projects/19458587232/secrets/key/versions/1"
-//     })
-//     const data = version.payload.data.toString("utf8")
-//     return data
-// }
+const getSecretValue = async() =>{
+    const [version] =await Client.accessSecretVersion({
+        name: "projects/19458587232/secrets/key/versions/1"
+    })
+    const data = version.payload.data.toString("utf8")
+    return data
+}
 
 const RegAdmin = async (req, res) => {
     try {
@@ -46,7 +46,7 @@ const RegAdmin = async (req, res) => {
 }
 
 const loginadmin = async (req,res) =>{
-    const key = process.env.KEY
+    const key = await getSecretValue()
     try {
         const request = await LogAdmin.validateAsync(req.body)
         const email = await Admin.findOne({where : {username:request.username}})
